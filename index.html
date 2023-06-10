@@ -45,12 +45,63 @@
     // ❗ Debug properly using the Console
 
     // 👉 CHALLENGE 1 - Integers
-    class Integers {
+    class Integers { 
+      constructor(...ints) {
+        this.ints = ints;
+
+      }
+
+
+      getAll() {
+        return this.ints;
+      }
+
+
+      getEvens() {
+        return this.ints.filter(nums => nums % 2 === 0);
+
+      }
+
+
+      getNegatives() {
+        return this.ints.filter(nums => nums < 0);
+
+      }
+
+      getAllSquared() {
+        return this.ints.map(nums => nums **2);
+
+      }
+
+      pop() {
+        const intPopped = this.ints.pop();
+        return intPopped;
+        
+      }
+
+      push(ints) {
+        this.ints.push(ints) 
+        return this.ints;
+
+      }
+
+      getEveryNth(n) {
+        return this.ints.filter((_, index) => index % n === 0);
+
+      }
+
+      getAllReversed() {
+        return [...this.ints].reverse()
+        
+      }
+
+
+
       // 🧠 Constructor takes **any** number of arguments, which are integers
       // 🧠 Instances have an `ints` property which is an array holding the integers above in the same order
       // 🧠 Implement a `getAll` method which returns the data held in the `ints` property
       // 🧠 Implement a `getEvens` method which returns an array with the integers that are even
-      // 🧠 Implement a `getNegatives` method which returns an array with the integers that negative
+      // 🧠 Implement a `getNegatives` method which returns an array with the integers that are negative
       // 🧠 Implement a `getAllSquared` method which returns an array with the integers squared
       // 🧠 Implement a `pop` method which removes the last integer from `ints`  and returns it
       // 🧠 Implement a `push` method which takes an int and pushes it to the end of `ints`, and returns the updated `ints` property
@@ -63,6 +114,31 @@
 
     // 👉 CHALLENGE 2 NerfGun
     class NerfGun {
+      constructor(totalProjectiles){
+        this.maxCapacity = totalProjectiles;
+        this.currentCapacity = totalProjectiles;
+        this.safetyEnabled = true
+
+      }
+
+      shoot() {
+        return this.currentCapacity > 0 && !this.safetyEnabled ? (--this.currentCapacity, "Bang!") : "Click!";
+        
+    }
+      
+      reload(number) {
+        return typeof number !== "number" || number <= 0 ? "Error reloading!" : ((this.currentCapacity += number) > this.maxCapacity ? (this.currentCapacity = this.maxCapacity) : this.currentCapacity) + " projectiles left!";
+          
+
+
+      }
+
+      toggleSafety() {
+        return this.safetyEnabled ? (this.safetyEnabled = false, "Safety disabled!") : (this.safetyEnabled = true, "Safety enabled!");
+          
+        
+      }
+
       // 🧠 Constructor takes one argument: the total number of projectiles supported by the instance
       // 🧠 New instances initialize fully loaded and with the safety on
       // 🧠 Instances have a `shoot` method that takes no arguments:
@@ -81,12 +157,41 @@
 
     // 👉 CHALLENGE 3 EBook
     class EBook {
+      constructor(bookText, charactersPerPage) {
+        this.bookText = bookText;
+        this.charactersPerPage = charactersPerPage;
+        this.totalPages = Math.ceil(bookText.length / charactersPerPage);
+        this.currentPage = 1;
+      }
+
+      next() {
+        const nextPageContent = this.bookText.slice(
+          (this.currentPage - 1) * this.charactersPerPage,
+          this.currentPage * this.charactersPerPage
+        );
+
+        if (nextPageContent.length === 0) {
+          return null;
+        } else {
+          this.currentPage++;
+          return nextPageContent;
+        }
+      }
+    
+  
+
+
+
+
+
+
       // 🧠 Constructor takes two arguments:
       //      * First arg is a string with the whole text of the book
       //      * Second arg is the number of characters contained in a single page of the book
       // 🧠 Instances have a `next` method:
       //      * It takes no args and returns the next page of the book
-      //      * If the next page is empty because we have reached the end, return null instead
+      //      * If the next page is empty because we have reached the end, return null instead  
+
       // 🧠 Example of usage:
       //    const ebook = new EBook('abcdefg', 3)
       //    ebook.next() // returns "abc"
@@ -100,6 +205,47 @@
 
     // 👉 CHALLENGE 4 AntFarm
     class AntFarm {
+      constructor(...antNames) {
+        this.ants = antNames.map(name => ({name, health: 100}));
+        
+      }
+
+      work() {
+        if (!this.ants.length){ 
+        return "No ants here. Did you work them to death?"
+        }
+
+        const numAnts = this.ants.length;
+
+        for (let i = 0; i < this.ants.length; i++) {
+          this.ants[i].health -= 20;
+          if (this.ants[i].health <= 0) {
+            this.ants.splice(i,1);
+            i--;
+            
+          }
+        }
+        return `${numAnts} ants starting work!`;
+
+      }
+
+      feed(name) {
+        const antsToFeed = this.ants.filter(ant => ant.name === name);
+        if (antsToFeed.length === 0) {
+          return `${name} not found!`;
+
+        }
+
+        this.ants = this.ants.map(ant => antsToFeed.includes(ant) ? {...ant, health: ant.health + 15} :ant
+        
+        
+      );
+
+      return "Yum!";
+      }
+
+
+
       // 🧠 Constructor takes **any** number of arguments, which are strings: the names of your ants
       // 🧠 Instances of AntFarm have an `ants` property holding an array of ants:
       //      * Each ant is an object with a `name` prop and a `health` prop that starts at 100
